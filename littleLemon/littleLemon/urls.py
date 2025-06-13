@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
 from myapp import views
+from rest_framework.authtoken.views import obtain_auth_token
+
 # Create a router and register our viewsets with it 
 router = DefaultRouter()
 router.register(r'tables', views.BookingViewSet)
@@ -25,5 +27,8 @@ router.register(r'tables', views.BookingViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),
-    path('restuarant/booking/',include(router.urls))# Include URLs from myapp
+    path('restuarant/booking/',include(router.urls)),# Include URLs from myapp
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # Token authentication endpoint
+    path('auth/',include('djoser.urls')),
+    path('auth/',include('djoser.urls.authtoken'))
 ]
